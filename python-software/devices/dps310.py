@@ -7,7 +7,7 @@ class DPS310Device(AbstractDevice):
     def __init__(self, context, *args):
         self.dps = DPS310(context.i2c, *args)
     def is_query(self, query):
-        return query[0] == 0x76 or query[0] == 0x77
+        return query == "0x76" or query == "0x77"
     def query(self, query):
-        return f"{self.dps.temperature}|{self.dps.pressure}|{self.dps.altitude}"
-    
+        return f"{self.dps.temperature} {self.dps.pressure} {self.dps.altitude}"
+        # T|P|H\n

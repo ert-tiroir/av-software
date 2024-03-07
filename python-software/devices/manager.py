@@ -5,7 +5,7 @@ __DEVICE_MANAGER__ = None
 
 class DeviceManager:
     def __init__(self):
-        if hasattr(self, "context"): return self
+        if hasattr(self, "context"): return
 
         self.context = DeviceContext()
 

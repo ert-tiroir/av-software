@@ -1,7 +1,17 @@
 
-import time
+from devices import getDeviceManager
 
-print("Hello, World !", flush=True)
+manager = getDeviceManager()
 
 def main ():
-    pass
+    while True:
+        line = input()
+
+        value = manager.query(line)
+        if value == None: 
+            print()
+            break
+
+        print(value)
+
+main()
