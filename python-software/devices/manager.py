@@ -5,6 +5,8 @@ __DEVICE_MANAGER__ = None
 
 class DeviceManager:
     def __init__(self):
+        if hasattr(self, "context"): return self
+
         self.context = DeviceContext()
 
         self.devices = []
