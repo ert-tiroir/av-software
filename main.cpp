@@ -19,9 +19,10 @@ int main () {
     AtmosphericData data;
     
     Dps310Device device; 
-    data = device.query(python);    
+       
     
     while (true) {
+        data = device.query(python); 
         
         std::cout << "==============\n";
         std::cout << "Temperature : " << data.temperature << " °C\n";
