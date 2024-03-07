@@ -3,7 +3,7 @@
 
 struct AtmosphericData{
     double temperature;
-    double presure;
+    double pressure;
     double altitude;
 };
 

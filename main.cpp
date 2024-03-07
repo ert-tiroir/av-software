@@ -1,22 +1,35 @@
 
 #include <python-subsystem/runner.h>
+#include <python-subsystem/devices.h>
 #include <string>
 #include <iostream>
+
+#include <chrono>
+#include <thread>
+
+using namespace std::this_thread; 
+using namespace std::chrono;
 
 int main () {
     TwoPipe* python = startPythonSoftware();
     python->useBlocking(false);
 
-    while (true) {
-        std::string data = python->readAll();
-
-        if (data.size() != 0) std::cout << data;
+    std::cout << "Starting AV-Nordli Software\n";
     
-        if (data.size() != 0 && data[data.size() - 1] == 0) break ;
+    AtmosphericData data;
+    
+    Dps310Device device; 
+    data = device.query(python);    
+    
+    while (true) {
+        
+        std::cout << "==============\n";
+        std::cout << "Temperature : " << data.temperature << " °C\n";
+        std::cout << "Pressure    : " << data.pressure << " hPa\n";
+        std::cout << "Altitude    : " << data.altitude << " m\n";
+
+        sleep_for( seconds(1) );
     }
 
     python->closeWriter();
-
-    
-
 }
