@@ -103,7 +103,7 @@ class GY521Device(AbstractDevice):
         dt        = new_time - self.time
         self.time = new_time
 
-        angular_acceleration =  self.rotation_matrix() * vector(*self.gy521)
+        angular_acceleration =  self.rotation_matrix() * vector(*self.gy521.gyro)
 
         self.angular_velocity = self.angular_velocity + dt * angular_acceleration
         self.rotation         = self.rotation         + dt * self.angular_velocity
