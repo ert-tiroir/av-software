@@ -95,7 +95,7 @@ class GY521Device(AbstractDevice):
     def rotation_matrix (self):
         return rotation(self.rotation.array[0][0],
                         self.rotation.array[1][0],
-                        self.rotation.array[2][0])
+                        0)
     def is_query(self, query):
         return query == "0x68"
     def query(self, query):
