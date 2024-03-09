@@ -17,7 +17,7 @@ class Matrix:
         assert self.shape == other.shape
         arr = [
             [
-                self.array[x][y] + self.array[x][y]
+                self.array[x][y] + other.array[x][y]
                 for y in range(self.shape[1])
             ] for x in range(self.shape[0])
         ]
