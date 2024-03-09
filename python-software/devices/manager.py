@@ -1,6 +1,8 @@
 
 from devices.context import DeviceContext
 
+import sys
+
 __DEVICE_MANAGER__ = None
 
 class DeviceManager:
@@ -20,7 +22,10 @@ class DeviceManager:
         return __DEVICE_MANAGER__
     
     def registerDevice (self, clazz):
-        self.devices.append(clazz(self.context))
+        try:
+            self.devices.append(clazz(self.context))
+        except Exception as e:
+            sys.stderr.write( str(e) + "\n" )
     def query (self, query):
         for device in self.devices:
             if device.is_query(query):
