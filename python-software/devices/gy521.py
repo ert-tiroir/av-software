@@ -2,6 +2,7 @@
 from devices.abstract import AbstractDevice
 
 import adafruit_mpu6050
+import time
 
 
 # ======================================================================================
@@ -75,6 +76,7 @@ def rotation_z (a):
         [ 0, 0, 1 ]
     ])
 
+   
 def rotation (x, y, z):
     return rotation_x(x) * rotation_y(y) * rotation_z(z)
 
@@ -88,6 +90,8 @@ class GY521Device(AbstractDevice):
 
         self.rotation         = vector(0, 0, 0)
         self.angular_velocity = vector(0, 0, 0)
+
+        self.time = time.time_ns()
     def rotation_matrix (self):
         return rotation(self.rotation.array[0][0],
                         self.rotation.array[1][0],
@@ -95,7 +99,14 @@ class GY521Device(AbstractDevice):
     def is_query(self, query):
         return query == "0x68"
     def query(self, query):
+        new_time  = time.time_ns()
+        dt        = new_time - self.time
+        self.time = new_time
+
+        angular_acceleration =  self.rotation_matrix() * vector(*self.gy521)
+
+        self.angular_velocity = self.angular_velocity + dt * angular_acceleration
+        self.rotation         = self.rotation         + dt * self.angular_velocity
         
-        
-        return f"Received MPU6050"
+        return f"{self.rotation[0][0]} {self.rotation[1][0]} {self.rotation[2][0]}"
         # T|P|H\n
