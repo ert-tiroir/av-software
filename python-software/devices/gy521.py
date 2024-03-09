@@ -4,6 +4,7 @@ from devices.abstract import AbstractDevice
 import adafruit_mpu6050
 import time
 
+from devices.kalman import KalmanFilter
 
 # ======================================================================================
 # ======================================== MATH ========================================
@@ -91,6 +92,10 @@ class GY521Device(AbstractDevice):
         self.rotation         = vector(0, 0, 0)
         self.angular_velocity = vector(0, 0, 0)
 
+        self.rx = KalmanFilter(0.001, 0.003, 0.03)
+        self.ry = KalmanFilter(0.001, 0.003, 0.03)
+        self.rz = KalmanFilter(0.001, 0.003, 0.03)
+
         self.time = time.time()
     def rotation_matrix (self):
         return rotation(self.rotation.array[0][0],
@@ -103,7 +108,12 @@ class GY521Device(AbstractDevice):
         dt        = new_time - self.time
         self.time = new_time
 
-        gyro = list(map(lambda x: x if abs(x) >= 0.06 else 0, self.gy521.gyro))
+        gyro = self.gy521.gyro
+        gyro = [
+            self.rx.update(gyro[0], gyro[0])
+            self.ry.update(gyro[1], gyro[1])
+            self.rz.update(gyro[2], gyro[2])
+        ]
         angular_acceleration =  self.rotation_matrix() * vector(*gyro)
 
         self.angular_velocity = self.angular_velocity + dt * angular_acceleration
