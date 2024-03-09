@@ -106,6 +106,9 @@ class GY521Device(AbstractDevice):
         angular_acceleration =  self.rotation_matrix() * vector(*self.gy521.gyro)
         print(str(self.rotation_matrix()))
         print(self.gy521.gyro)
+        print(self.angular_velocity.array)
+        print(dt)
+        print(angular_acceleration.array)
 
         self.angular_velocity = self.angular_velocity + dt * angular_acceleration
         self.rotation         = self.rotation         + dt * self.angular_velocity
