@@ -103,8 +103,8 @@ class GY521Device(AbstractDevice):
         dt        = new_time - self.time
         self.time = new_time
 
-        angular_acceleration =  self.rotation_matrix() * vector(*self.gy521.gyro)
-        print(angular_acceleration.array)
+        gyro = list(map(lambda x: x if abs(x) >= 0.06 else 0, self.gy521.gyro))
+        angular_acceleration =  self.rotation_matrix() * vector(*gyro)
 
         self.angular_velocity = self.angular_velocity + dt * angular_acceleration
         self.rotation         = self.rotation         + dt * self.angular_velocity
