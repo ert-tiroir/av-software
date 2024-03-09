@@ -110,8 +110,8 @@ class GY521Device(AbstractDevice):
 
         gyro = self.gy521.gyro
         gyro = [
-            self.rx.update(gyro[0], gyro[0])
-            self.ry.update(gyro[1], gyro[1])
+            self.rx.update(gyro[0], gyro[0]),
+            self.ry.update(gyro[1], gyro[1]),
             self.rz.update(gyro[2], gyro[2])
         ]
         angular_acceleration =  self.rotation_matrix() * vector(*gyro)
