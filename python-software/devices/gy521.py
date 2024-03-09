@@ -91,7 +91,7 @@ class GY521Device(AbstractDevice):
         self.rotation         = vector(0, 0, 0)
         self.angular_velocity = vector(0, 0, 0)
 
-        self.time = time.time_ns()
+        self.time = time.time()
     def rotation_matrix (self):
         return rotation(self.rotation.array[0][0],
                         self.rotation.array[1][0],
@@ -99,7 +99,7 @@ class GY521Device(AbstractDevice):
     def is_query(self, query):
         return query == "0x68"
     def query(self, query):
-        new_time  = time.time_ns()
+        new_time  = time.time()
         dt        = new_time - self.time
         self.time = new_time
 
