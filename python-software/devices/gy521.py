@@ -108,5 +108,5 @@ class GY521Device(AbstractDevice):
         self.angular_velocity = self.angular_velocity + dt * angular_acceleration
         self.rotation         = self.rotation         + dt * self.angular_velocity
         
-        return f"{self.rotation[0][0]} {self.rotation[1][0]} {self.rotation[2][0]}"
+        return f"{self.rotation.array[0][0]} {self.rotation.array[1][0]} {self.rotation.array[2][0]}"
         # T|P|H\n
